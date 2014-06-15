@@ -31,7 +31,8 @@ I delete them to avoid misunderstanding with the code
 
 then I plot histogram of the total number of steps taken each day called: "histogram_totalnumber_steps_each_day.png"
 
-```{r}
+
+```r
 rm(list=ls())
 setwd("~/Desktop/Courses_online/Data_Science_Specialization/05_ReproducibleResearch/CourseProject/PA1")
 
@@ -84,6 +85,11 @@ rm( list = c( "k", "comparison_date", "day_subset"))
 #png(filename="histogram_totalnumber_steps_each_day.png")
 hist(day_data$steps, breaks = 8, xlab="total number of steps", main="")
 title(main = "total number of steps taken each day ")
+```
+
+![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1.png) 
+
+```r
 #dev.off()
 
 # Add mean and median of steps per day in weekday_data data.frame
@@ -98,8 +104,21 @@ for (i in 1:nrow(weekday_data)){
 }
 
 mean(day_data$steps) # The mean of total number of steps taken per day is: 9354
-median(day_data$steps) # # The median of total number of steps taken per day is:10395
+```
 
+```
+## [1] 9354
+```
+
+```r
+median(day_data$steps) # # The median of total number of steps taken per day is:10395
+```
+
+```
+## [1] 10395
+```
+
+```r
 # Delete auxiliar variables, to clean the code
 rm( list = c("i", "j", "mean_i", "median_i", "week_id_subset") )
 ```
@@ -112,7 +131,8 @@ and also I add mean of steps per day for 5 minutes interval
 I plot 5-minute interval (x-axis) and the average number of steps taken, 
 averaged across all days (y-axis) - named: "5_minute_interval_for_all_days.png"
 Then I calculate which interval has the maximun mean of steps
-``` {r}
+
+```r
 # fill data of steps according with interval
 for (i in 1:nrow(interval_data)){
     interval_data$interval[i] <- data_PA1$interval[i]
@@ -128,10 +148,20 @@ plot(interval_data$interval, interval_data$mean_interval, type="l", xlab=" 5-min
 lines(interval_data$interval, interval_data$mean_interval, col = "blue")
 legend("topright", lwd = 1, col = c("blue"), legend = c("steps per interval"))
 title(main = "Average steps' number (5-minute interval) vs Averaged all days")
+```
+
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
+
+```r
 #dev.off()
 # Interval which Maximun mean steps 
 max_step_interval <- which.max(interval_data$mean_interval)
 interval_data[max_step_interval,]
+```
+
+```
+##     interval mean_interval
+## 104      835         206.2
 ```
 The interval is 8:35 a.m. contains the maximum number of steps
 
@@ -147,13 +177,19 @@ with the name: "histogram_totalnumber_steps_each_day_without_missing_values.png"
 The impact of the selected methodology (in case of missing value we estimate mean for that day)
 In intervals that we don't have steps for sample sleeping, we have intruce a mean.
 Intervals with more steps as 8:35 has less steps than reality.
-```{r}
+
+```r
 #Number of missing data
 clean_data <- na.omit(data_PA1)
 total_NA <- length(data_PA1$steps) - length(clean_data$steps)
 total_NA  # 2304 Is the total number of row with NA values
+```
 
+```
+## [1] 2304
+```
 
+```r
 # filling in all of the missing values in the dataset.
 # Strategy: mean for that day
 for (id in 1:7 ) {
@@ -165,7 +201,11 @@ rm(list=c("clean_data", "interval_subset", "id", "mean_interval", "total_NA"))
 
 hist(day_data$steps, breaks = 8, xlab="total number of steps taken withouh missing data", main ="")
 title(main = "total number of steps taken each day")
+```
 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-31.png) 
+
+```r
 # fill mean data per day 
 for (k in 1:nrow(day_data)){
     comparison_date <- day_data$day[k]
@@ -175,8 +215,21 @@ for (k in 1:nrow(day_data)){
 }
 
 mean(day_data$steps) # The mean of total number of steps (without missing data) taken per day is: 10571
-median(day_data$steps) # # The median of total number of steps (without missing data) taken per day is: 10571
+```
 
+```
+## [1] 10571
+```
+
+```r
+median(day_data$steps) # # The median of total number of steps (without missing data) taken per day is: 10571
+```
+
+```
+## [1] 10571
+```
+
+```r
 # Delete variables 
 rm(list=c("comparison_date", "k", "day_subset"))
 
@@ -186,7 +239,11 @@ rm(list=c("comparison_date", "k", "day_subset"))
 
 hist(day_data$steps, breaks = 8, xlab="total number of steps", main="")
 title(main = "total number of steps taken each day without missing data")
+```
 
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-32.png) 
+
+```r
 #dev.off()
 ```
 
@@ -196,7 +253,8 @@ type_data variable has these values.
 
 For the latest plot I have use lattice
 The name of the plot is: "5_minute_interval_weeday_weekend.png"
-```{r}
+
+```r
 # Datas of weekday variables
 for (i in 1:nrow(data_PA1)){
     if(data_PA1$week_id[i] == 1 | data_PA1$week_id[i] == 2 |  data_PA1$week_id[i] == 3 | data_PA1$week_id[i] == 4 | data_PA1$week_id[i] == 5){
@@ -241,6 +299,10 @@ library(lattice)
 weekdayend_interval_data$type_day <- as.factor(weekdayend_interval_data$type_day)
 #png(filename="5_minute_interval_weeday_weekend.png")
 xyplot( weekdayend_interval_data$mean_interval ~ weekdayend_interval_data$interval | weekdayend_interval_data$type_day, type = "l", data = weekdayend_interval_data, layout = c(1, 2), main = "Average steps taken (5-minute interval) Averaged all weekday or weekend", xlab ="interval", ylab="number of steps" )
+```
 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+
+```r
 #dev.off()
 ```
